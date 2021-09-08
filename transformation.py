@@ -28,12 +28,14 @@ def _segMaskB2I(mask_path, save_path):
         areas[i] = cv2.contourArea(contours[i])
     sorted(areas.items(), key = lambda kv:(kv[1], kv[0]), reverse=True)  # 面积升序
     # 开始填充
-    for color, idx in enumerate(areas.keys(), 1):
+    color = 1
+    for idx in areas.keys():
         contour = contours[idx]
         hierarchy = hierarchys[0][idx]
         # print(hierarchy)
         if hierarchy[-1] == -1:  # 输入子轮廓
             cv2.fillPoly(mask, [contour], color)
+            color += 1
         else:
             cv2.fillPoly(mask, [contour], 0)
     # 显示
